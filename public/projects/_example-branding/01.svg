@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="Helvetica, Arial, sans-serif">
+
+    <rect width="100%" height="100%" fill="#d8d3c7"/>
+    
+    <rect x="256" y="90" width="160" height="720" fill="#2a3b5c"/>
+    <text transform="translate(336, 495.00000000000006) rotate(-90)" text-anchor="middle" fill="#e9e4d8" font-size="32" font-weight="700" letter-spacing="5">NORTH WIND</text>
+    <text x="336" y="774" text-anchor="middle" fill="#e9e4d8" font-size="22" letter-spacing="4">Nº 01</text>
+  
+    
+    <rect x="480" y="90" width="160" height="720" fill="#5a3a2a"/>
+    <text transform="translate(560, 495.00000000000006) rotate(-90)" text-anchor="middle" fill="#e9e4d8" font-size="32" font-weight="700" letter-spacing="5">THE QUIET CLOCK</text>
+    <text x="560" y="774" text-anchor="middle" fill="#e9e4d8" font-size="22" letter-spacing="4">Nº 02</text>
+  
+    
+    <rect x="704" y="90" width="160" height="720" fill="#3d4a2a"/>
+    <text transform="translate(784, 495.00000000000006) rotate(-90)" text-anchor="middle" fill="#e9e4d8" font-size="32" font-weight="700" letter-spacing="5">TWELVE FATHOMS</text>
+    <text x="784" y="774" text-anchor="middle" fill="#e9e4d8" font-size="22" letter-spacing="4">Nº 03</text>
+  
+    
+    <rect x="927.9999999999999" y="90" width="160" height="720" fill="#1b1b1b"/>
+    <text transform="translate(1007.9999999999999, 495.00000000000006) rotate(-90)" text-anchor="middle" fill="#e9e4d8" font-size="32" font-weight="700" letter-spacing="5">BLACK MILK</text>
+    <text x="1007.9999999999999" y="774" text-anchor="middle" fill="#e9e4d8" font-size="22" letter-spacing="4">Nº 04</text>
+  
+    
+    <rect x="1152" y="90" width="160" height="720" fill="#a23a3a"/>
+    <text transform="translate(1232, 495.00000000000006) rotate(-90)" text-anchor="middle" fill="#e9e4d8" font-size="32" font-weight="700" letter-spacing="5">WILD ESTATE</text>
+    <text x="1232" y="774" text-anchor="middle" fill="#e9e4d8" font-size="22" letter-spacing="4">Nº 05</text>
+  
+  
+</svg>

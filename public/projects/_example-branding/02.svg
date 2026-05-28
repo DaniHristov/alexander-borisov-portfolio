@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" font-family="Helvetica, Arial, sans-serif">
+
+  <rect width="100%" height="100%" fill="#e9e4d8"/>
+  <g fill="#1b1b1b">
+    <text x="50%" y="540" text-anchor="middle" font-size="160" font-weight="700" letter-spacing="-4">MP</text>
+    <line x1="672" y1="660" x2="927.9999999999999" y2="660" stroke="#1b1b1b" stroke-width="2"/>
+    <text x="50%" y="816.0000000000001" text-anchor="middle" font-size="29" letter-spacing="6">MANUSCRIPT PRESS</text>
+    <text x="50%" y="888" text-anchor="middle" font-size="22" letter-spacing="4" fill="#5a3a2a">— INDEPENDENT FICTION · EST. 1998</text>
+  </g>
+
+</svg>

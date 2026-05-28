@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2133" viewBox="0 0 1600 2133" font-family="Helvetica, Arial, sans-serif">
+
+  <rect width="100%" height="100%" fill="#0b3b3a"/>
+  <text x="128" y="597.24" fill="#f3eede" font-size="256" font-weight="700" letter-spacing="-8">NINE</text>
+  <text x="128" y="895.86" fill="#f3eede" font-size="256" font-weight="700" letter-spacing="-8">VOLT</text>
+  <text x="128" y="1066.5" fill="#d99858" font-size="48" font-weight="500" letter-spacing="6">/ TOUR · MMXXIV</text>
+  <line x1="128" y1="1322.46" x2="1472" y2="1322.46" stroke="#f3eede" stroke-width="2"/>
+  <text x="128" y="1535.76" fill="#f3eede" font-size="35" letter-spacing="3">BERLIN · 02.11 — KÖLN · 04.11 — HAMBURG · 06.11</text>
+  <text x="128" y="1663.74" fill="#f3eede" font-size="35" letter-spacing="3">VIENNA · 09.11 — ZÜRICH · 11.11 — MILAN · 13.11</text>
+
+</svg>

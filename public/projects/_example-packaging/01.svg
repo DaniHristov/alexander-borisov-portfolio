@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2133" viewBox="0 0 1600 2133" font-family="Helvetica, Arial, sans-serif">
+
+  <rect width="100%" height="100%" fill="#3a0d12"/>
+  <rect x="448.00000000000006" y="298.62" width="704" height="1535.76" fill="#e9d8b0"/>
+  <text x="50%" y="597.24" text-anchor="middle" fill="#3a0d12" font-size="32" letter-spacing="8">VELA &amp; LINDEN</text>
+  <line x1="544" y1="682.5600000000001" x2="1056" y2="682.5600000000001" stroke="#3a0d12" stroke-width="1"/>
+  <text x="50%" y="1023.8399999999999" text-anchor="middle" fill="#3a0d12" font-size="80" font-style="italic" font-weight="500" letter-spacing="-1">Solstice</text>
+  <text x="50%" y="1237.1399999999999" text-anchor="middle" fill="#3a0d12" font-size="32" letter-spacing="6">— PINOT NOIR · 2023 —</text>
+  <line x1="544" y1="1407.78" x2="1056" y2="1407.78" stroke="#3a0d12" stroke-width="1"/>
+  <text x="50%" y="1578.42" text-anchor="middle" fill="#3a0d12" font-size="22" letter-spacing="6">SONOMA COAST · CA</text>
+
+</svg>

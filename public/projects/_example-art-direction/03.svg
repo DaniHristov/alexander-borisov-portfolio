@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2000" viewBox="0 0 1600 2000" font-family="Helvetica, Arial, sans-serif">
+
+  <rect width="100%" height="100%" fill="#a33a45"/>
+  <text x="128" y="400" fill="#f0e6d2" font-size="26" letter-spacing="6">— ON FAILURE</text>
+  <text x="128" y="800" fill="#f0e6d2" font-size="70" font-style="italic" font-weight="500" letter-spacing="-2">&#8220;We have learned more</text>
+  <text x="128" y="960" fill="#f0e6d2" font-size="70" font-style="italic" font-weight="500" letter-spacing="-2">from the records that</text>
+  <text x="128" y="1120" fill="#f0e6d2" font-size="70" font-style="italic" font-weight="500" letter-spacing="-2">didn&#8217;t sell than the</text>
+  <text x="128" y="1280" fill="#f0e6d2" font-size="70" font-style="italic" font-weight="500" letter-spacing="-2">ones that did.&#8221;</text>
+  <text x="128" y="1600" fill="#f0e6d2" font-size="22" letter-spacing="6" opacity="0.8">— K. ATLAS, FOUNDER</text>
+
+</svg>

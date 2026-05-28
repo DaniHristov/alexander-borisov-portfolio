@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2133" viewBox="0 0 1600 2133" font-family="Helvetica, Arial, sans-serif">
+
+  <rect width="100%" height="100%" fill="#e9e4d8"/>
+  <line x1="128" y1="383.94" x2="1472" y2="383.94" stroke="#1b1b1b" stroke-width="1"/>
+  <text x="128" y="341.28000000000003" fill="#1b1b1b" font-size="22" letter-spacing="4">— PULL QUOTE</text>
+  <text x="128" y="853.2" fill="#1b1b1b" font-size="96" font-style="italic" font-weight="500" letter-spacing="-3">&#8220;The patina is the</text>
+  <text x="128" y="1066.5" fill="#1b1b1b" font-size="96" font-style="italic" font-weight="500" letter-spacing="-3">building&#8217;s second</text>
+  <text x="128" y="1279.8" fill="#1b1b1b" font-size="96" font-style="italic" font-weight="500" letter-spacing="-3">drawing.&#8221;</text>
+  <text x="128" y="1663.74" fill="#7a4a2a" font-size="29" letter-spacing="4">— R. HOLM · ISSUE 12, p. 47</text>
+
+</svg>
