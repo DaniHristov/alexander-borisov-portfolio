@@ -16,7 +16,14 @@ export async function requestLink(
     const token = signToken({ email, purpose: 'login' }, LINK_TTL);
     const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
     const url = `${base}/admin/auth/callback?token=${encodeURIComponent(token)}`;
-    await sendMagicLink(email, url);
+    try {
+      await sendMagicLink(email, url);
+    } catch (err) {
+      // A send failure (e.g. Resend rejecting an unverified recipient) must not
+      // crash the page. Log it server-side and still return the neutral response
+      // below so we never reveal whether the address is allowed.
+      console.error('[admin/login] failed to send magic link:', err);
+    }
   }
   return { sent: true };
 }
