@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { destroySession } from '@/lib/auth/session';
 import { requireSession } from '@/lib/auth/require';
-import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateGrid as persistGrid } from '@/db/queries';
+import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateGrid as persistGrid, addTile, deleteTile, updateTile, reorderTiles } from '@/db/queries';
 import { storeImage } from '@/lib/storage/upload';
 import { clampCol, clampSpan } from '@/lib/grid';
 import type { NewProjectRow } from '@/db/schema';
@@ -123,4 +123,40 @@ export async function saveGrid(
   await persistGrid(safe);
   revalidatePath(`/admin/${gallery}`);
   revalidatePath('/admin', 'layout'); // refresh the dirty indicator after a layout save
+}
+
+export async function addGalleryImage(
+  projectId: string,
+  img: { url: string; width: number; height: number; alt: string; sortOrder: number },
+) {
+  await requireSession();
+  const row = await addTile({
+    projectId,
+    blobUrl: img.url,
+    width: img.width,
+    height: img.height,
+    alt: img.alt,
+    sortOrder: img.sortOrder,
+  });
+  revalidatePath('/admin', 'layout'); // refresh the dirty indicator
+  return row;
+}
+
+export async function updateGalleryImage(tileId: string, fields: { alt: string; caption: string }) {
+  await requireSession();
+  // Empty caption → null so the public figcaption doesn't render an empty node.
+  await updateTile(tileId, { alt: fields.alt, caption: fields.caption.trim() || null });
+  revalidatePath('/admin', 'layout');
+}
+
+export async function removeGalleryImage(tileId: string) {
+  await requireSession();
+  await deleteTile(tileId);
+  revalidatePath('/admin', 'layout');
+}
+
+export async function reorderGalleryImages(orderedIds: string[]) {
+  await requireSession();
+  await reorderTiles(orderedIds);
+  revalidatePath('/admin', 'layout');
 }
