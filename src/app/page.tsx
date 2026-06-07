@@ -8,14 +8,24 @@ const links = [
   { href: '/connect', label: 'Connect' },
 ];
 
-function MenuLinks() {
+function MenuLinks({ horizontal = false }: { horizontal?: boolean }) {
   return (
-    <ul className="flex flex-col items-center gap-2 md:gap-3">
+    <ul
+      className={
+        horizontal
+          ? 'flex flex-row flex-wrap items-center justify-center gap-x-8 gap-y-2 md:gap-x-12'
+          : 'flex flex-col items-center gap-2 md:gap-3'
+      }
+    >
       {links.map((link) => (
         <li key={link.href}>
           <a
             href={link.href}
-            className="heading-link inline-block text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[1.05] tracking-tight"
+            className={`heading-link inline-block font-bold leading-[1.05] tracking-tight ${
+              horizontal
+                ? 'text-[clamp(1.25rem,3vw,2rem)]'
+                : 'text-[clamp(2.5rem,7vw,5rem)]'
+            }`}
           >
             {link.label}
           </a>
@@ -52,7 +62,7 @@ export default async function Home() {
         <div className="flex flex-1 items-center justify-center">
           <HeroHandoff>
             <nav aria-label="Sections" className="mx-auto">
-              <MenuLinks />
+              <MenuLinks horizontal />
             </nav>
           </HeroHandoff>
         </div>
