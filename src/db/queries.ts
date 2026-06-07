@@ -111,6 +111,37 @@ export async function deleteTile(id: string, db: Db = getDb()) {
   await db.delete(tiles).where(eq(tiles.id, id));
 }
 
+// --- Project-detail editor: by-id read + tile edits ---
+export async function getWorkingProjectById(id: string, db: Db = getDb()) {
+  const [p] = await db.select().from(projects).where(eq(projects.id, id));
+  if (!p) return null;
+  const imgs = await db
+    .select()
+    .from(tiles)
+    .where(eq(tiles.projectId, p.id))
+    .orderBy(asc(tiles.sortOrder));
+  return { project: p, tiles: imgs };
+}
+
+export async function updateTile(id: string, fields: Partial<NewTileRow>, db: Db = getDb()) {
+  await db.update(tiles).set(fields).where(eq(tiles.id, id));
+}
+
+/** Pure: map an ordered id list to {id, sortOrder} by position. */
+export function tileOrderUpdates(orderedIds: string[]): { id: string; sortOrder: number }[] {
+  return orderedIds.map((id, i) => ({ id, sortOrder: i }));
+}
+
+export async function reorderTiles(orderedIds: string[], db: Db = getDb()) {
+  const updates = tileOrderUpdates(orderedIds);
+  if (updates.length === 0) return;
+  // One atomic batch so a mid-save failure can't leave the order half-applied.
+  const stmts = updates.map((u) =>
+    db.update(tiles).set({ sortOrder: u.sortOrder }).where(eq(tiles.id, u.id)),
+  );
+  await db.batch(stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]]);
+}
+
 export async function upsertSiteContent(
   fields: Partial<typeof siteContent.$inferInsert>,
   db: Db = getDb(),
