@@ -6,14 +6,11 @@
   --color-muted: #8a8a8a;
   --color-rule: #222222;
 
-  --font-sans: var(--font-space-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Type hierarchy — Space Mono only has 400 and 700, so the hierarchy
-   carries through size and tracking rather than weight gradation.
-   Headings: 700, tight tracking. Body: 400, normal tracking.
-   Mono characters read wider than sans, so sizes are slightly smaller
-   than a sans-equivalent would be. */
+/* Type hierarchy — Inter. Headings: 700, tight tracking; body: 400, normal
+   tracking. The hierarchy carries through size and tracking as well as weight. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 700;

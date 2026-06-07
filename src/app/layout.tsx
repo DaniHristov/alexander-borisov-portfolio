@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
-import { Space_Mono } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Nav } from '@/components/Nav';
 import { Cursor } from '@/components/Cursor';
 import { getSiteContent } from '@/content/live';
 import './globals.css';
 
-const spaceMono = Space_Mono({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-space-mono',
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -33,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={spaceMono.variable}>
+    <html lang="en" className={inter.variable}>
       <body>
         <a className="skip-link" href="#main">
           Skip to content
