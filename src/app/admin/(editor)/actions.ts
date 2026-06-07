@@ -103,6 +103,7 @@ export async function saveProjectMeta(
   await updateProjectFields(id, fields);
   revalidatePath('/admin/work');
   revalidatePath('/admin/art');
+  revalidatePath('/admin', 'layout'); // light up the "Unpublished changes" badge
 }
 
 export async function removeProject(id: string, gallery: 'work' | 'art'): Promise<void> {
