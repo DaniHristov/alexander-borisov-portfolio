@@ -47,7 +47,7 @@ export default async function Home() {
                 persistent section below. */}
             <h1 className="sr-only">{site.designer.name}</h1>
             <nav aria-label="Sections (intro)" className="mx-auto">
-              <MenuLinks />
+              <MenuLinks horizontal />
             </nav>
           </>
         }
