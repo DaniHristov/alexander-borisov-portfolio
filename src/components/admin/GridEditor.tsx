@@ -145,6 +145,7 @@ export function GridEditor({ gallery, initial }: { gallery: 'work' | 'art'; init
       {sel && (
         <Inspector
           tile={sel}
+          gallery={gallery}
           onChange={(p) => patch(sel.id, p)}
           onSave={() => persistMeta(sel)}
           onDelete={async () => {

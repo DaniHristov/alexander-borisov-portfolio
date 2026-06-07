@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ImageDrop } from './ImageDrop';
 import type { EditorTile } from './GridEditor';
 
@@ -7,17 +8,27 @@ const f = 'w-full rounded border border-neutral-700 bg-transparent p-1.5 text-sm
 
 export function Inspector({
   tile,
+  gallery,
   onChange,
   onSave,
   onDelete,
 }: {
   tile: EditorTile;
+  gallery: 'work' | 'art';
   onChange: (patch: Partial<EditorTile>) => void;
   onSave: () => void;
   onDelete: () => void;
 }) {
   return (
     <aside className="w-72 shrink-0 space-y-3 border-l border-neutral-800 p-3">
+      {gallery === 'work' && (
+        <Link
+          href={`/admin/work/${tile.id}`}
+          className="block rounded border border-neutral-700 px-2 py-1 text-center text-xs hover:bg-neutral-800"
+        >
+          Edit full details →
+        </Link>
+      )}
       <div className="relative aspect-[4/5] overflow-hidden rounded bg-neutral-900">
         {tile.coverBlobUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
