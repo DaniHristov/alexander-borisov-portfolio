@@ -6,10 +6,9 @@ Single-designer portfolio site. Minimal, monochrome, image-first. Frontend-only 
 
 - Next.js 15 (App Router) · React 19 · TypeScript (strict)
 - Tailwind CSS v4
-- Space Mono via `next/font/google`
-- GSAP (ScrollTrigger) for the scroll-driven Blender frame-sequence hero
+- Inter via `next/font/google`
 - Vitest for data-layer tests
-- Deploy: Vercel / Cloudflare Pages
+- Deploy: Vercel
 
 ## Local development
 
@@ -22,23 +21,25 @@ npm run test
 npm run build
 ```
 
-## Editing content
+## Editing content (admin CMS)
 
-All content lives under `src/content/`:
+Content is edited through the admin at `/admin` — no code changes or redeploys needed.
 
-- `src/content/site.ts` — designer name, tagline, bio, contact, socials.
-- `src/content/projects/<slug>.ts` — one file per project.
-- `public/projects/<slug>/*` — project images.
+1. Go to `/admin` and enter an authorized email (set in `ADMIN_EMAILS`). A one-time sign-in link is emailed (via Resend). In **local dev with no `RESEND_API_KEY`, the link is printed to the dev-server console** — open it to sign in.
+2. Edit each surface:
+   - **Work / Art** — drag tiles to arrange, set width/height (in grid cells) in the inspector, upload a cover, edit title/year/slug/categories/summary. Click **Save layout** / **Save details**.
+   - **About / Connect** — fill the forms (bio, clients, press; email, socials, "Currently" rows). Click **Save draft**.
+3. Edits are private drafts. Click **Publish** (top bar) to make them live. The "Unpublished changes" badge shows when drafts differ from what's published.
 
-To add a project:
+### Database setup (first run / local)
 
-1. Copy an existing `_example-*.ts` file to `<your-slug>.ts`.
-2. Drop your images into `public/projects/<your-slug>/`.
-3. Update the new file's fields (slug, title, year, categories, images).
-4. Import + add it to the array in `src/content/projects/index.ts`.
+```bash
+npm run db:migrate   # apply the Drizzle migration
+npm run db:seed      # load seed content + write the first published snapshot
+```
 
-`[TODO: ...]` placeholders flag every value that must be replaced before launch.
+Requires `DATABASE_URL` (Neon) in `.env.local`. See `.env.example` for all variables. Image uploads need `BLOB_READ_WRITE_TOKEN` in production; locally they fall back to `public/uploads/`.
 
-## Future: CMS migration
+## Architecture: the published-snapshot seam
 
-The data layer (`src/content/projects/index.ts` + `src/content/site.ts`) is the single seam to swap for a CMS later. Function signatures (`getAllProjects`, `getProjectBySlug`, etc.) and the `Project` / `SiteContent` shapes in `src/content/types.ts` are designed to map 1:1 onto a Sanity schema. See the design spec at `docs/superpowers/specs/2026-05-24-designer-portfolio-design.md`.
+The public site never reads the working tables — it reads one cached `published_snapshot` row. **Publish** serializes the working tables into that snapshot and revalidates the cache. The public data accessors (`getAllProjects`, `getProjectBySlug`, `getSiteContent`, …) in `src/content/live.ts` and the `Project` / `SiteContent` shapes in `src/content/types.ts` are the seam. See the admin spec at `docs/superpowers/specs/2026-05-30-designer-portfolio-self-edit-admin.md` and the plan at `docs/superpowers/plans/2026-05-31-designer-portfolio-admin-cms.md`.

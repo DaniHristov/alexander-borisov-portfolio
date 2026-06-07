@@ -14,7 +14,7 @@ export function PrevNext({ prev, next }: Props) {
     >
       <div>
         {prev ? (
-          <Link href={`/works/${prev.slug}`} className="flex flex-col gap-1">
+          <Link href={`/work/${prev.slug}`} className="flex flex-col gap-1">
             <span className="text-xs uppercase tracking-wide text-muted">
               Previous
             </span>
@@ -26,7 +26,7 @@ export function PrevNext({ prev, next }: Props) {
       </div>
       <div className="text-right">
         {next ? (
-          <Link href={`/works/${next.slug}`} className="flex flex-col items-end gap-1">
+          <Link href={`/work/${next.slug}`} className="flex flex-col items-end gap-1">
             <span className="text-xs uppercase tracking-wide text-muted">
               Next
             </span>

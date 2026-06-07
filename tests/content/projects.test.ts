@@ -5,29 +5,20 @@ import {
   getFeaturedProjects,
   getProjectsByCategory,
 } from '@/content/projects';
-import type { Project } from '@/content/types';
 
-const makeProject = (overrides: Partial<Project>): Project => ({
-  slug: 'p',
-  title: 'P',
-  year: 2024,
-  categories: ['other'],
-  summary: 's',
-  cover: { src: '/x.jpg', alt: '', width: 100, height: 100 },
-  images: [],
-  ...overrides,
-});
+// These accessors are async (DB snapshot with seed fallback). With no
+// DATABASE_URL set in the test env, they resolve to the seed content.
 
 describe('getAllProjects', () => {
-  it('returns projects sorted by year descending by default', () => {
-    const projects = getAllProjects();
+  it('returns projects sorted by year descending by default', async () => {
+    const projects = await getAllProjects();
     for (let i = 1; i < projects.length; i++) {
       expect(projects[i - 1].year).toBeGreaterThanOrEqual(projects[i].year);
     }
   });
 
-  it('honors manual `order` field over year when provided', () => {
-    const projects = getAllProjects();
+  it('honors manual `order` field over year when provided', async () => {
+    const projects = await getAllProjects();
     const ordered = projects.filter((p) => typeof p.order === 'number');
     for (let i = 1; i < ordered.length; i++) {
       expect(ordered[i - 1].order!).toBeLessThanOrEqual(ordered[i].order!);
@@ -36,21 +27,21 @@ describe('getAllProjects', () => {
 });
 
 describe('getProjectBySlug', () => {
-  it('returns the project with the matching slug', () => {
-    const all = getAllProjects();
+  it('returns the project with the matching slug', async () => {
+    const all = await getAllProjects();
     if (all.length === 0) return;
     const target = all[0];
-    expect(getProjectBySlug(target.slug)).toEqual(target);
+    expect(await getProjectBySlug(target.slug)).toEqual(target);
   });
 
-  it('returns undefined for an unknown slug', () => {
-    expect(getProjectBySlug('does-not-exist-zzz')).toBeUndefined();
+  it('returns undefined for an unknown slug', async () => {
+    expect(await getProjectBySlug('does-not-exist-zzz')).toBeUndefined();
   });
 });
 
 describe('getFeaturedProjects', () => {
-  it('returns only projects with featured === true', () => {
-    const featured = getFeaturedProjects();
+  it('returns only projects with featured === true', async () => {
+    const featured = await getFeaturedProjects();
     for (const p of featured) {
       expect(p.featured).toBe(true);
     }
@@ -58,15 +49,15 @@ describe('getFeaturedProjects', () => {
 });
 
 describe('getProjectsByCategory', () => {
-  it('returns only projects whose categories include the given tag', () => {
-    const filtered = getProjectsByCategory('logo');
+  it('returns only projects whose categories include the given tag', async () => {
+    const filtered = await getProjectsByCategory('logo');
     for (const p of filtered) {
       expect(p.categories).toContain('logo');
     }
   });
 
-  it('is case-sensitive and returns [] for unknown categories', () => {
+  it('is case-sensitive and returns [] for unknown categories', async () => {
     // @ts-expect-error testing runtime behavior with invalid input
-    expect(getProjectsByCategory('NOPE')).toEqual([]);
+    expect(await getProjectsByCategory('NOPE')).toEqual([]);
   });
 });

@@ -21,7 +21,7 @@ export function IndexList({ projects }: Props) {
           className="border-b border-rule"
         >
           <Link
-            href={`/works/${p.slug}`}
+            href={`/work/${p.slug}`}
             className="grid grid-cols-[1fr_auto_auto] items-baseline gap-6 py-4 text-sm no-underline hover:no-underline md:py-5"
           >
             <span className="font-medium">{p.title}</span>

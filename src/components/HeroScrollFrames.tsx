@@ -133,7 +133,6 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
       cancelled = true
     }
     // drawFrame closes over canvasRef/framesRef which are stable
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [frameSet, reducedMotion])
 
   function drawFrame(index: number) {
@@ -190,6 +189,19 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
         window.dispatchEvent(new Event(shouldReveal ? 'hero:reveal' : 'hero:hide'))
       }
 
+      // Handoff signal for the in-flow menu below the hero. While the fixed
+      // stage is in front (`hero:within`) the in-flow menu hides, so the two
+      // identical menus never show at once during the scroll handoff; once the
+      // user scrolls past the section (`hero:past`) the fixed stage fades out
+      // and the in-flow menu takes over at viewport center. `null` start makes
+      // the first call always dispatch, syncing listeners to current state.
+      let past: boolean | null = null
+      const firePast = (isPast: boolean) => {
+        if (isPast === past) return
+        past = isPast
+        window.dispatchEvent(new Event(isPast ? 'hero:past' : 'hero:within'))
+      }
+
       // Skip button visibility tracks the inverse of nav reveal: visible
       // during the animation, hidden once nav appears (and so the user can
       // see the content the skip would have taken them to).
@@ -223,11 +235,28 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
           fireReveal(self.progress >= NAV_REVEAL_PROGRESS)
           updateSkip(self.progress < NAV_REVEAL_PROGRESS)
         },
-        onEnter: () => setPastHero(false),
-        onEnterBack: () => setPastHero(false),
-        onLeave: () => setPastHero(true),
-        onLeaveBack: () => setPastHero(false),
+        onEnter: () => {
+          setPastHero(false)
+          firePast(false)
+        },
+        onEnterBack: () => {
+          setPastHero(false)
+          firePast(false)
+        },
+        onLeave: () => {
+          setPastHero(true)
+          firePast(true)
+        },
+        onLeaveBack: () => {
+          setPastHero(false)
+          firePast(false)
+        },
       })
+
+      // Sync the in-flow menu to the current scroll position on load (e.g.
+      // refresh partway down the page), since the on* callbacks above only
+      // fire on subsequent boundary crossings.
+      firePast(trigger.progress >= 1)
 
       // Canvas fades out after the animation finishes — black bg of the
       // stage shows through, then tagline appears on clean black.
@@ -280,8 +309,10 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
         taglineTween?.kill()
         window.removeEventListener('resize', onResize)
         if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-        // Ensure nav is shown when user navigates away while pin was active
+        // Ensure nav + in-flow menu are shown when the hero unmounts (e.g.
+        // navigating away while the stage was still in front).
         window.dispatchEvent(new Event('hero:reveal'))
+        window.dispatchEvent(new Event('hero:past'))
       }
     })()
 
@@ -290,9 +321,13 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
     }
   }, [allLoaded, reducedMotion])
 
-  // For reduced-motion users, no scroll-driven reveal — just show nav.
+  // For reduced-motion users, no scroll-driven reveal — show nav, and mark
+  // the hero "past" so the in-flow menu (which defaults visible) stays shown.
   useEffect(() => {
-    if (reducedMotion) window.dispatchEvent(new Event('hero:reveal'))
+    if (reducedMotion) {
+      window.dispatchEvent(new Event('hero:reveal'))
+      window.dispatchEvent(new Event('hero:past'))
+    }
   }, [reducedMotion])
 
   const progress = Math.round((loadedCount / FRAME_COUNT) * 100)
@@ -334,7 +369,13 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
             before GSAP loads). Reduced-motion users see it immediately. */}
         <div
           ref={taglineRef}
-          className="pointer-events-auto relative z-10 px-6 text-center"
+          // Release pointer events once the hero is past — otherwise this
+          // invisible overlay (fixed, painted above the in-flow menu) keeps
+          // intercepting hover/clicks, since pointer-events-auto on a child
+          // overrides the parent's pointer-events-none.
+          className={`relative z-10 px-6 text-center ${
+            pastHero ? 'pointer-events-none' : 'pointer-events-auto'
+          }`}
           style={{ opacity: reducedMotion ? 1 : 0 }}
         >
           {tagline}

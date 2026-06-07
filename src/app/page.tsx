@@ -1,5 +1,6 @@
 import { HeroScrollFrames } from '@/components/HeroScrollFrames';
-import { site } from '@/content/site';
+import { HeroHandoff } from '@/components/HeroHandoff';
+import { getSiteContent } from '@/content/live';
 
 const links = [
   { href: '/work', label: 'Work' },
@@ -9,12 +10,12 @@ const links = [
 
 function MenuLinks() {
   return (
-    <ul className="pointer-events-auto flex flex-col items-center gap-2 md:gap-3">
+    <ul className="flex flex-col items-center gap-2 md:gap-3">
       {links.map((link) => (
         <li key={link.href}>
           <a
             href={link.href}
-            className="inline-block text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[1.05] tracking-tight transition-[font-style] duration-200 hover:italic"
+            className="heading-link inline-block text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[1.05] tracking-tight"
           >
             {link.label}
           </a>
@@ -24,7 +25,8 @@ function MenuLinks() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const site = await getSiteContent();
   return (
     <>
       <HeroScrollFrames
@@ -48,9 +50,11 @@ export default function Home() {
         className="flex min-h-screen flex-col bg-black px-6 pb-8 pt-10 text-center text-white"
       >
         <div className="flex flex-1 items-center justify-center">
-          <nav aria-label="Sections" className="mx-auto">
-            <MenuLinks />
-          </nav>
+          <HeroHandoff>
+            <nav aria-label="Sections" className="mx-auto">
+              <MenuLinks />
+            </nav>
+          </HeroHandoff>
         </div>
         <div className="flex flex-col items-start justify-between gap-3 text-xs uppercase tracking-wide text-[var(--color-muted)] md:flex-row md:items-center">
           <span>

@@ -71,6 +71,42 @@ a:hover {
   text-underline-offset: 3px;
 }
 
+/* Home headings (Work / Art / Connect): a center-out underline that
+   eases in on hover/focus and eases back out on leave — interpolated
+   via transform, not an instant text-decoration line. No italic. */
+.heading-link {
+  position: relative;
+}
+
+.heading-link:hover,
+.heading-link:focus-visible {
+  text-decoration: none;
+}
+
+.heading-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.08em;
+  height: 0.06em;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.heading-link:hover::after,
+.heading-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heading-link::after {
+    transition: none;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

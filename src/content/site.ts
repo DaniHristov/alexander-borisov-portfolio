@@ -52,6 +52,7 @@ export const site: SiteContent = {
       { label: 'Are.na', href: 'https://are.na/alexander-borisov' },
       { label: 'Email', href: 'mailto:hello@alexanderborisov.studio' },
     ],
+    currently: [],
   },
   seo: {
     siteName: 'Alexander Borisov',

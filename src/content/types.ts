@@ -52,6 +52,11 @@ export interface SocialLink {
   href: string;
 }
 
+export interface CurrentlyRow {
+  label: string;
+  value: string;
+}
+
 export interface SiteContent {
   designer: {
     name: string;
@@ -66,6 +71,7 @@ export interface SiteContent {
   contact: {
     email: string;
     socials: SocialLink[];
+    currently: CurrentlyRow[];
   };
   seo: {
     siteName: string;

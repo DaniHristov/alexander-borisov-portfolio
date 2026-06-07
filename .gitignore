@@ -4,3 +4,11 @@ out
 .env*.local
 *.tsbuildinfo
 coverage
+/public/uploads
+.vercel
+# Vercel CLI appended ".env*" (too broad — it hides .env.example). Ignore real env files only:
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

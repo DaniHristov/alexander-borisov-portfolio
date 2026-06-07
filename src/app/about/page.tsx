@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { site } from '@/content/site';
+import { getSiteContent } from '@/content/live';
 
 export const metadata: Metadata = {
   title: 'About',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const site = await getSiteContent();
   return (
     <article className="mx-auto w-full max-w-[760px] px-6 pb-20 pt-4 md:px-10">
       <h1 className="text-[clamp(2rem,4vw,3rem)] font-medium leading-tight tracking-tight">

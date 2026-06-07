@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Space_Mono } from 'next/font/google';
 import { Nav } from '@/components/Nav';
 import { Cursor } from '@/components/Cursor';
-import { site } from '@/content/site';
+import { getSiteContent } from '@/content/live';
 import './globals.css';
 
 const spaceMono = Space_Mono({
@@ -13,20 +13,23 @@ const spaceMono = Space_Mono({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: {
-    default: site.seo.siteName,
-    template: `%s — ${site.seo.siteName}`,
-  },
-  description: site.seo.description,
-  openGraph: {
-    title: site.seo.siteName,
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteContent();
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+    title: {
+      default: site.seo.siteName,
+      template: `%s — ${site.seo.siteName}`,
+    },
     description: site.seo.description,
-    type: 'website',
-    siteName: site.seo.siteName,
-  },
-};
+    openGraph: {
+      title: site.seo.siteName,
+      description: site.seo.description,
+      type: 'website',
+      siteName: site.seo.siteName,
+    },
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

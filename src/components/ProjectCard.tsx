@@ -10,19 +10,25 @@ interface Props {
 export function ProjectCard({ project, priority = false }: Props) {
   return (
     <Link
-      href={`/works/${project.slug}`}
+      href={`/work/${project.slug}`}
       className="group block no-underline hover:no-underline"
       aria-label={`${project.title}, ${project.year}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-rule">
-        <Image
-          src={project.cover.src}
-          alt={project.cover.alt}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          priority={priority}
-          className={`object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02] ${priority ? 'first-image-fade' : ''}`}
-        />
+        {project.cover.src ? (
+          <Image
+            src={project.cover.src}
+            alt={project.cover.alt}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            priority={priority}
+            className={`object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02] ${priority ? 'first-image-fade' : ''}`}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center px-3 text-center text-xs uppercase tracking-wide text-muted">
+            {project.title}
+          </div>
+        )}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3 text-sm">
         <span className="font-medium">{project.title}</span>
