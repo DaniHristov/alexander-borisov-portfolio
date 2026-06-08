@@ -74,7 +74,7 @@ export async function createWorkProject(gallery: 'work' | 'art'): Promise<string
   const values: NewProjectRow = {
     slug,
     gallery,
-    title: 'Untitled',
+    title: '',
     year: new Date().getFullYear(),
     categories: [],
     summary: '',
