@@ -154,12 +154,12 @@ a:hover {
    behind the Work / Art / Connect menu, giving the black depth without any
    literal shape. Frozen for reduced-motion users by the global rule above. */
 @keyframes glow-drift {
-  0%   { transform: translate(-4%, -3%) scale(1);     opacity: 0.55; }
-  50%  { transform: translate(4%, 3%)   scale(1.18);  opacity: 0.95; }
-  100% { transform: translate(-4%, -3%) scale(1);     opacity: 0.55; }
+  0%   { transform: translate(-1.5%, -1%) scale(1);     opacity: 0.8; }
+  50%  { transform: translate(1.5%, 1%)   scale(1.04);  opacity: 1;   }
+  100% { transform: translate(-1.5%, -1%) scale(1);     opacity: 0.8; }
 }
 
 .menu-glow {
-  animation: glow-drift 24s ease-in-out infinite;
+  animation: glow-drift 36s ease-in-out infinite;
   will-change: transform, opacity;
 }

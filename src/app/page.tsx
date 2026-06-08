@@ -65,7 +65,7 @@ export default async function Home() {
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
         >
-          <div className="menu-glow h-[85vmin] w-[85vmin] rounded-full bg-[radial-gradient(circle,rgba(245,245,245,0.13),transparent_65%)] blur-2xl" />
+          <div className="menu-glow h-[70vmin] w-[70vmin] rounded-full bg-[radial-gradient(circle,rgba(245,245,245,0.12),transparent_68%)] blur-2xl" />
         </div>
         <div className="relative z-10 flex flex-1 items-center justify-center">
           <HeroHandoff>
