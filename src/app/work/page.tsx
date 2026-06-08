@@ -29,7 +29,7 @@ export default async function WorkPage({ searchParams }: PageProps) {
   );
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-[1100px]">
       <h1 className="sr-only">Work</h1>
       <div className="flex flex-col gap-4 px-6 pb-4 pt-2 md:flex-row md:items-end md:justify-between md:px-10">
         <Suspense fallback={null}>
@@ -40,6 +40,6 @@ export default async function WorkPage({ searchParams }: PageProps) {
         </Suspense>
       </div>
       {isIndex ? <IndexList projects={filtered} /> : <WorksGrid projects={filtered} />}
-    </>
+    </div>
   );
 }
