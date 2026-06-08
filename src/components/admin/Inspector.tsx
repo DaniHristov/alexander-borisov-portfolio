@@ -21,14 +21,12 @@ export function Inspector({
 }) {
   return (
     <aside className="w-72 shrink-0 space-y-3 border-l border-neutral-800 p-3">
-      {gallery === 'work' && (
-        <Link
-          href={`/admin/work/${tile.id}`}
-          className="block rounded border border-neutral-700 px-2 py-1 text-center text-xs hover:bg-neutral-800"
-        >
-          Edit full details →
-        </Link>
-      )}
+      <Link
+        href={`/admin/${gallery}/${tile.id}`}
+        className="block rounded border border-neutral-700 px-2 py-1 text-center text-xs hover:bg-neutral-800"
+      >
+        Edit full details →
+      </Link>
       <div className="relative aspect-[4/5] overflow-hidden rounded bg-neutral-900">
         {tile.coverBlobUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
