@@ -149,18 +149,3 @@ a:hover {
 .first-image-fade {
   animation: fade-in 300ms ease-out both;
 }
-
-/* Home menu background — the intro reel's final bloom kept quietly alive
-   behind the Work / Art / Connect menu: a slow full rotation with a gentle
-   breathing scale. Reduced-motion users get it frozen (handled by the global
-   prefers-reduced-motion rule above), i.e. a still, dim form. */
-@keyframes bloom-drift {
-  0%   { transform: rotate(0deg)   scale(1);    }
-  50%  { transform: rotate(180deg) scale(1.07); }
-  100% { transform: rotate(360deg) scale(1);    }
-}
-
-.menu-bloom {
-  animation: bloom-drift 150s linear infinite;
-  will-change: transform;
-}
