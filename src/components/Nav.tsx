@@ -45,7 +45,10 @@ export function Nav() {
   return (
     <nav
       aria-label="Primary"
-      className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-black px-6 py-5 transition-opacity duration-500 md:px-10 md:py-7 ${
+      // Gradient scrim (not a solid bar): fades to transparent so the nav
+      // melts into the page instead of leaving a hard black edge over the
+      // home glow — and still backs the logo/links over gallery images.
+      className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-gradient-to-b from-black via-black/80 to-transparent px-6 py-5 transition-opacity duration-500 md:px-10 md:py-7 ${
         revealed ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       aria-hidden={!revealed}
