@@ -58,7 +58,11 @@ export default async function Home() {
           sits at the bottom of the same section. */}
       <section
         aria-label="Sections"
-        className="relative flex min-h-screen flex-col overflow-hidden bg-black px-6 pb-8 pt-10 text-center text-white"
+        // No bg-black here: the page body is already black, and an opaque
+        // background on this (positioned) section would paint OVER the fixed
+        // intro reel and rise up over it during the handoff. Staying
+        // transparent lets the reel show through until it fades out.
+        className="relative flex min-h-screen flex-col overflow-hidden px-6 pb-8 pt-10 text-center text-white"
       >
         {/* Ambient haze behind the menu — fades in on the intro handoff
             rather than scrolling up from below. */}
