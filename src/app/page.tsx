@@ -57,16 +57,24 @@ export default async function Home() {
           sits at the bottom of the same section. */}
       <section
         aria-label="Sections"
-        className="flex min-h-screen flex-col bg-black px-6 pb-8 pt-10 text-center text-white"
+        className="relative flex min-h-screen flex-col overflow-hidden bg-black px-6 pb-8 pt-10 text-center text-white"
       >
-        <div className="flex flex-1 items-center justify-center">
+        {/* Soft drifting glow — a faint radial haze behind the menu that
+            slowly drifts and breathes, giving the black depth. Decorative. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+        >
+          <div className="menu-glow h-[85vmin] w-[85vmin] rounded-full bg-[radial-gradient(circle,rgba(245,245,245,0.13),transparent_65%)] blur-2xl" />
+        </div>
+        <div className="relative z-10 flex flex-1 items-center justify-center">
           <HeroHandoff>
             <nav aria-label="Sections" className="mx-auto">
               <MenuLinks horizontal />
             </nav>
           </HeroHandoff>
         </div>
-        <div className="flex flex-col items-start justify-between gap-3 text-xs uppercase tracking-wide text-[var(--color-muted)] md:flex-row md:items-center">
+        <div className="relative z-10 flex flex-col items-start justify-between gap-3 text-xs uppercase tracking-wide text-[var(--color-muted)] md:flex-row md:items-center">
           <span>
             © {new Date().getFullYear()} {site.designer.name}
           </span>
