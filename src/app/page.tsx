@@ -57,16 +57,30 @@ export default async function Home() {
           sits at the bottom of the same section. */}
       <section
         aria-label="Sections"
-        className="flex min-h-screen flex-col bg-black px-6 pb-8 pt-10 text-center text-white"
+        className="relative flex min-h-screen flex-col overflow-hidden bg-black px-6 pb-8 pt-10 text-center text-white"
       >
-        <div className="flex flex-1 items-center justify-center">
+        {/* Living bloom — the intro reel's final form, kept quietly alive
+            behind the menu. Decorative; the frame's own black background
+            blends into the section, so a dimmed square needs no transparency. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hero-frames/desktop/frame-289.webp"
+            alt=""
+            className="menu-bloom w-[min(88vmin,820px)] max-w-none opacity-[0.10]"
+          />
+        </div>
+        <div className="relative z-10 flex flex-1 items-center justify-center">
           <HeroHandoff>
             <nav aria-label="Sections" className="mx-auto">
               <MenuLinks horizontal />
             </nav>
           </HeroHandoff>
         </div>
-        <div className="flex flex-col items-start justify-between gap-3 text-xs uppercase tracking-wide text-[var(--color-muted)] md:flex-row md:items-center">
+        <div className="relative z-10 flex flex-col items-start justify-between gap-3 text-xs uppercase tracking-wide text-[var(--color-muted)] md:flex-row md:items-center">
           <span>
             © {new Date().getFullYear()} {site.designer.name}
           </span>
