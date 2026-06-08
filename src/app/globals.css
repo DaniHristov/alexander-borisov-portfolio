@@ -153,13 +153,14 @@ a:hover {
 /* Home menu background — a faint radial haze that slowly drifts and breathes
    behind the Work / Art / Connect menu, giving the black depth without any
    literal shape. Frozen for reduced-motion users by the global rule above. */
+/* Translate-only drift — no opacity here (the component fades it in/out, so
+   animating opacity too would fight that), no scale (kept it from swelling). */
 @keyframes glow-drift {
-  0%   { transform: translate(-1.5%, -1%) scale(1);     opacity: 0.8; }
-  50%  { transform: translate(1.5%, 1%)   scale(1.04);  opacity: 1;   }
-  100% { transform: translate(-1.5%, -1%) scale(1);     opacity: 0.8; }
+  0%, 100% { transform: translate(-1.5%, -1%); }
+  50%      { transform: translate(1.5%, 1.2%); }
 }
 
 .menu-glow {
-  animation: glow-drift 36s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: glow-drift 40s ease-in-out infinite;
+  will-change: transform;
 }

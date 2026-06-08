@@ -1,5 +1,6 @@
 import { HeroScrollFrames } from '@/components/HeroScrollFrames';
 import { HeroHandoff } from '@/components/HeroHandoff';
+import { MenuGlow } from '@/components/MenuGlow';
 import { getSiteContent } from '@/content/live';
 
 const links = [
@@ -59,14 +60,9 @@ export default async function Home() {
         aria-label="Sections"
         className="relative flex min-h-screen flex-col overflow-hidden bg-black px-6 pb-8 pt-10 text-center text-white"
       >
-        {/* Soft drifting glow — a faint radial haze behind the menu that
-            slowly drifts and breathes, giving the black depth. Decorative. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
-        >
-          <div className="menu-glow h-[70vmin] w-[70vmin] rounded-full bg-[radial-gradient(circle,rgba(245,245,245,0.12),transparent_68%)] blur-2xl" />
-        </div>
+        {/* Ambient haze behind the menu — fades in on the intro handoff
+            rather than scrolling up from below. */}
+        <MenuGlow />
         <div className="relative z-10 flex flex-1 items-center justify-center">
           <HeroHandoff>
             <nav aria-label="Sections" className="mx-auto">
