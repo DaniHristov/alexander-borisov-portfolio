@@ -4,8 +4,9 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { destroySession } from '@/lib/auth/session';
 import { requireSession } from '@/lib/auth/require';
-import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateLayout as persistLayout, addTile, deleteTile, updateTile, reorderTiles } from '@/db/queries';
+import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateLayout as persistLayout, addTile, deleteTile, updateTile, reorderTiles, getWorkingProjects } from '@/db/queries';
 import { storeImage } from '@/lib/storage/upload';
+import { tileHeightPx } from '@/lib/grid';
 import type { NewProjectRow } from '@/db/schema';
 
 export async function logout(): Promise<void> {
@@ -67,9 +68,43 @@ export async function uploadImage(formData: FormData): Promise<{ url: string; wi
   return storeImage(file);
 }
 
+/**
+ * Lists every image already uploaded, so the admin can reuse them (Media
+ * library) instead of re-uploading. Vercel Blob in production; the local
+ * public/uploads/ folder in dev.
+ */
+export async function listUploadedImages(): Promise<{ url: string; pathname: string }[]> {
+  await requireSession();
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { list } = await import('@vercel/blob');
+    const { blobs } = await list({ prefix: 'uploads/' });
+    return blobs
+      .sort((a, b) => +new Date(b.uploadedAt) - +new Date(a.uploadedAt))
+      .map((b) => ({ url: b.url, pathname: b.pathname }));
+  }
+  // Dev fallback: read the local uploads folder.
+  const { readdir } = await import('fs/promises');
+  const path = await import('path');
+  const dir = path.join(process.cwd(), 'public', 'uploads');
+  const files = await readdir(dir).catch(() => []);
+  return files
+    .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
+    .reverse()
+    .map((f) => ({ url: `/uploads/${f}`, pathname: f }));
+}
+
 export async function createWorkProject(gallery: 'work' | 'art'): Promise<string> {
   await requireSession();
   const slug = `untitled-${Date.now()}`;
+  const w = 520;
+  // Place the new tile in clear space BELOW the existing collage, so it never
+  // lands on top of (and visually hides) already-arranged projects.
+  const existing = (await getWorkingProjects().catch(() => [])).filter((p) => p.gallery === gallery);
+  const maxBottom = existing.reduce(
+    (m, p) => Math.max(m, p.y + tileHeightPx(p.w, p.coverW, p.coverH)),
+    0,
+  );
+  const maxZ = existing.reduce((m, p) => Math.max(m, p.z), 0);
   const values: NewProjectRow = {
     slug,
     gallery,
@@ -78,9 +113,9 @@ export async function createWorkProject(gallery: 'work' | 'art'): Promise<string
     summary: '',
     status: 'draft',
     x: 60,
-    y: 60,
-    w: 520,
-    z: 0,
+    y: existing.length === 0 ? 60 : maxBottom + 60,
+    w,
+    z: maxZ + 1,
     fit: 'cover',
     sortOrder: 9999,
   };

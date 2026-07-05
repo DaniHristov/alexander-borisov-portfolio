@@ -12,6 +12,7 @@ import {
 import { DESIGN_W, canvasHeight, type Fit } from '@/lib/grid';
 import { Inspector } from './Inspector';
 import { CollagePreview } from './CollagePreview';
+import { MediaLibrary } from './MediaLibrary';
 import { saveLayout, saveProjectMeta, createWorkProject, removeProject } from '@/app/admin/(editor)/actions';
 
 export interface EditorTile {
@@ -46,6 +47,7 @@ export function GridEditor({ initial }: { initial: EditorTile[] }) {
   const [selected, setSelected] = useState<string | null>(initial[0]?.id ?? null);
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [library, setLibrary] = useState(false);
   // @dnd-kit assigns sequential aria ids that differ between SSR and the client,
   // which trips React's hydration check. The editor doesn't need SSR, so mount
   // the drag canvas only on the client.
@@ -167,6 +169,13 @@ export function GridEditor({ initial }: { initial: EditorTile[] }) {
           >
             Preview
           </button>
+          <button
+            type="button"
+            onClick={() => setLibrary(true)}
+            className="rounded border border-neutral-700 px-2 py-1 text-xs"
+          >
+            Media library
+          </button>
           <span className="text-xs text-neutral-500">Drag to move · drag corner to resize · overlap freely</span>
         </div>
         {mounted ? (
@@ -208,6 +217,22 @@ export function GridEditor({ initial }: { initial: EditorTile[] }) {
             await persist();
             await removeProject(sel.id, GALLERY);
             window.location.reload();
+          }}
+        />
+      )}
+      {library && (
+        <MediaLibrary
+          canPick={!!sel}
+          onClose={() => setLibrary(false)}
+          onPick={async (img) => {
+            if (!sel) return;
+            patch(sel.id, { coverBlobUrl: img.url, coverW: img.width, coverH: img.height });
+            await saveProjectMeta(sel.id, {
+              coverBlobUrl: img.url,
+              coverW: img.width,
+              coverH: img.height,
+            });
+            setLibrary(false);
           }}
         />
       )}
