@@ -32,6 +32,15 @@ export async function GET(): Promise<NextResponse> {
 export async function PUT(request: Request): Promise<NextResponse> {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // On Vercel the filesystem is read-only, so the local-disk fallback can't
+  // work — uploads require Vercel Blob. Fail with a clear message instead of a
+  // cryptic ENOENT when BLOB_READ_WRITE_TOKEN is missing in production.
+  if (process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: 'Image uploads need Vercel Blob. Add a Blob store (sets BLOB_READ_WRITE_TOKEN) and redeploy.' },
+      { status: 501 },
+    );
+  }
   try {
     const form = await request.formData();
     const file = form.get('file');
