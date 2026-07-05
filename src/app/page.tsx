@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { HeroScrollFrames } from '@/components/HeroScrollFrames';
 import { Collage } from '@/components/Collage';
+import { Reveal } from '@/components/Reveal';
 import { getAllProjects, getSiteContent } from '@/content/live';
 
 export default async function Home() {
@@ -30,9 +31,9 @@ export default async function Home() {
       {/* About */}
       <section id="about" className="scroll-mt-[110px] px-6 pb-24 pt-8 md:px-10">
         <div className="mx-auto w-full max-w-[760px]">
-          <h2 className="text-[clamp(2rem,4vw,3rem)] font-medium leading-tight tracking-tight">
+          <Reveal as="h2" className="text-[clamp(2rem,4vw,3rem)] font-medium leading-tight tracking-tight">
             About
-          </h2>
+          </Reveal>
 
           {site.about.portrait ? (
             <div className="my-10">
@@ -46,61 +47,25 @@ export default async function Home() {
             </div>
           ) : null}
 
-          <div className="mt-10 space-y-5 text-base leading-relaxed">
+          <Reveal className="mt-10 space-y-5 text-base leading-relaxed" delay={120}>
             {site.about.bio.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
-          </div>
-
-          {site.about.selectedClients && site.about.selectedClients.length > 0 ? (
-            <div className="mt-14">
-              <h3 className="text-xs uppercase tracking-wide text-muted">Selected clients</h3>
-              <ul className="mt-4 columns-2 gap-x-8 text-sm md:columns-3">
-                {site.about.selectedClients.map((c) => (
-                  <li key={c} className="break-inside-avoid py-1">
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-
-          {site.about.press && site.about.press.length > 0 ? (
-            <div className="mt-14">
-              <h3 className="text-xs uppercase tracking-wide text-muted">Press</h3>
-              <ul className="mt-4 divide-y divide-rule border-y border-rule text-sm">
-                {site.about.press.map((p, i) => (
-                  <li key={i} className="grid grid-cols-[1fr_auto] gap-4 py-3">
-                    <span>
-                      {p.url ? (
-                        <a href={p.url} target="_blank" rel="noreferrer noopener">
-                          {p.title}
-                        </a>
-                      ) : (
-                        p.title
-                      )}
-                      <span className="text-muted"> — {p.outlet}</span>
-                    </span>
-                    <span className="tabular-nums text-muted">{p.year}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+          </Reveal>
         </div>
       </section>
 
       {/* Connect */}
       <section id="connect" className="scroll-mt-[110px] px-6 pb-24 pt-8 md:px-10">
         <div className="mx-auto w-full max-w-[760px]">
-          <h2 className="text-[clamp(2rem,4vw,3rem)] font-medium leading-tight tracking-tight">
+          <Reveal as="h2" className="text-[clamp(2rem,4vw,3rem)] font-medium leading-tight tracking-tight">
             Connect
-          </h2>
+          </Reveal>
 
-          <div className="mt-10 space-y-6 text-base leading-relaxed">
+          <Reveal className="mt-10 space-y-6 text-base leading-relaxed" delay={120}>
             <p>
-              For new projects, collaborations, teaching, or press — I read every
-              message and reply to most within a few days.
+              For new projects, collaborations— I read every message and reply to
+              most within a few days.
             </p>
             <p>
               <a
@@ -110,21 +75,7 @@ export default async function Home() {
                 {site.contact.email}
               </a>
             </p>
-          </div>
-
-          {site.contact.currently && site.contact.currently.length > 0 ? (
-            <div className="mt-14">
-              <h3 className="text-xs uppercase tracking-wide text-muted">Currently</h3>
-              <ul className="mt-4 divide-y divide-rule border-y border-rule text-sm">
-                {site.contact.currently.map((row) => (
-                  <li key={row.label} className="grid grid-cols-[1fr_auto] gap-4 py-3">
-                    <span>{row.label}</span>
-                    <span className="text-right text-muted">{row.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+          </Reveal>
         </div>
       </section>
 

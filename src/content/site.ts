@@ -13,44 +13,13 @@ export const site: SiteContent = {
   },
   about: {
     bio: [
-      'Alexander Borisov is an independent graphic designer working between Sofia and the California coast. His practice spans identity systems, editorial design, and art direction — typically in close collaboration with founders and editors who care more about the long view than the launch.',
-      'Before going independent in 2019 he spent six years at studios in Amsterdam and New York. He teaches type and editorial design as a visiting critic at the Werkplaats and is a founding editor of Ferrous Quarterly.',
-    ],
-    selectedClients: [
-      'Atlas Records',
-      'Ferrous Quarterly',
-      'Helios Coffee',
-      'Manuscript Press',
-      'Nine Volt',
-      'Vela & Linden',
-      'Hand & Crane',
-      'Werkplaats Typografie',
-      'The Coastal Review',
-    ],
-    press: [
-      {
-        title: 'On Patience as a Design Strategy',
-        outlet: 'Eye Magazine',
-        year: 2024,
-      },
-      {
-        title: 'Ten Independent Studios to Watch',
-        outlet: 'It’s Nice That',
-        year: 2023,
-      },
-      {
-        title: 'Building Slowly: A Conversation with Alexander Borisov',
-        outlet: 'Form & Type',
-        year: 2022,
-      },
+      'A multidisciplinary visual designer and curator bringing ideas to life through bold visuals. Working across motion design, 3D, and generative art, I’m always exploring new creative directions. Passionate about branding, experimental design, and post-human studies',
     ],
   },
   contact: {
-    email: 'hello@alexanderborisov.studio',
+    email: 'alexanderborisow.work@gmail.com',
     socials: [
-      { label: 'Instagram', href: 'https://instagram.com/alexanderborisov.studio' },
-      { label: 'Are.na', href: 'https://are.na/alexander-borisov' },
-      { label: 'Email', href: 'mailto:hello@alexanderborisov.studio' },
+      { label: 'Instagram', href: 'https://www.instagram.com/unachible/' },
     ],
     currently: [],
   },
