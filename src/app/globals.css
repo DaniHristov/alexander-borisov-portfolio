@@ -6,11 +6,12 @@
   --color-muted: #8a8a8a;
   --color-rule: #222222;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-syne), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Type hierarchy — Inter. Headings: 700, tight tracking; body: 400, normal
-   tracking. The hierarchy carries through size and tracking as well as weight. */
+/* Type hierarchy — Syne (variable 400–800). Display headings lean on the heavy
+   end (extra-bold) for punch; body stays at 400. The wide contrast between the
+   two is what gives the type its character. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 700;
@@ -18,8 +19,9 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.05;
 }
 
-h1 { font-size: clamp(2rem, 4.5vw, 3.25rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); letter-spacing: -0.015em; }
+/* Big display headings — extra-bold (800) for maximum contrast against body. */
+h1 { font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 800; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); letter-spacing: -0.015em; font-weight: 800; }
 h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); letter-spacing: -0.01em; }
 h4 { font-size: 1.125rem; letter-spacing: 0; }
 h5 { font-size: 0.9375rem; letter-spacing: 0.02em; text-transform: uppercase; }

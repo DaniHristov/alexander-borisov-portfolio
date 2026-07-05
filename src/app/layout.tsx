@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Syne } from 'next/font/google';
 import { Nav } from '@/components/Nav';
 import { Cursor } from '@/components/Cursor';
 import { getSiteContent } from '@/content/live';
 import './globals.css';
 
-const inter = Inter({
+// Syne (variable, wght 400–800) — one file, full family. Distinctive display
+// letterforms carry the brand; weight range gives strong type contrast.
+const syne = Syne({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-syne',
   display: 'swap',
 });
 
@@ -31,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={syne.variable}>
       <body>
         <a className="skip-link" href="#main">
           Skip to content
