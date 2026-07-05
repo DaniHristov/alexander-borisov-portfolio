@@ -234,6 +234,12 @@ export function GridEditor({ initial }: { initial: EditorTile[] }) {
             });
             setLibrary(false);
           }}
+          onNewFromImage={async (img) => {
+            // Persist current positions first so the reload doesn't drop them.
+            await persist();
+            await createWorkProject(GALLERY, img);
+            window.location.reload();
+          }}
         />
       )}
     </div>

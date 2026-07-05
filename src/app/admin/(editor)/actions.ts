@@ -93,7 +93,24 @@ export async function listUploadedImages(): Promise<{ url: string; pathname: str
     .map((f) => ({ url: `/uploads/${f}`, pathname: f }));
 }
 
-export async function createWorkProject(gallery: 'work' | 'art'): Promise<string> {
+/** Deletes an uploaded image from storage (Blob in prod, disk in dev). Any
+ *  project still using it as a cover will lose it — the caller confirms. */
+export async function deleteUploadedImage(url: string): Promise<void> {
+  await requireSession();
+  if (process.env.BLOB_READ_WRITE_TOKEN && url.startsWith('http')) {
+    const { del } = await import('@vercel/blob');
+    await del(url);
+  } else if (url.startsWith('/uploads/')) {
+    const { unlink } = await import('fs/promises');
+    const path = await import('path');
+    await unlink(path.join(process.cwd(), 'public', url)).catch(() => {});
+  }
+}
+
+export async function createWorkProject(
+  gallery: 'work' | 'art',
+  cover?: { url: string; width: number; height: number },
+): Promise<string> {
   await requireSession();
   const slug = `untitled-${Date.now()}`;
   const w = 520;
@@ -117,6 +134,9 @@ export async function createWorkProject(gallery: 'work' | 'art'): Promise<string
     w,
     z: maxZ + 1,
     fit: 'cover',
+    coverBlobUrl: cover?.url ?? null,
+    coverW: cover?.width ?? null,
+    coverH: cover?.height ?? null,
     sortOrder: 9999,
   };
   const row = await createProject(values);
