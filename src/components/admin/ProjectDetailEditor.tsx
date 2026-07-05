@@ -10,7 +10,7 @@ export interface DetailProject {
   slug: string;
   title: string;
   year: number;
-  categories: string[];
+  fit: 'cover' | 'contain';
   client: string;
   role: string;
   summary: string;
@@ -45,7 +45,7 @@ export function ProjectDetailEditor({
         title: p.title,
         year: p.year,
         slug: p.slug,
-        categories: p.categories,
+        fit: p.fit,
         client: p.client || null,
         role: p.role || null,
         summary: p.summary,
@@ -91,13 +91,20 @@ export function ProjectDetailEditor({
             <input className={f} value={p.slug} onChange={(e) => patch({ slug: e.target.value })} />
           </label>
         </div>
-        <label className="block text-xs">Categories (comma-separated)
-          <input
-            className={f}
-            value={p.categories.join(', ')}
-            onChange={(e) => patch({ categories: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })}
-          />
-        </label>
+        <div className="text-xs">Cover fit
+          <div className="mt-1 flex overflow-hidden rounded border border-neutral-700">
+            {(['cover', 'contain'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => patch({ fit: mode })}
+                className={`flex-1 px-2 py-1 ${p.fit === mode ? 'bg-white text-black' : 'text-neutral-300'}`}
+              >
+                {mode === 'cover' ? 'Cover (framed)' : 'Transparent PNG'}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="flex gap-3">
           <label className="block flex-1 text-xs">Client
             <input className={f} value={p.client} onChange={(e) => patch({ client: e.target.value })} />

@@ -13,13 +13,20 @@ import { asc, eq } from 'drizzle-orm';
 import type { getDb } from './client';
 import { projects, tiles, siteContent } from './schema';
 import type { Project, SiteContent, ProjectImage } from '@/content/types';
+import type { Fit } from '@/lib/grid';
 import { site as seedSite } from '@/content/site';
 
 type Db = ReturnType<typeof getDb>;
 
 export interface GalleryProject extends Project {
-  // Snap-grid placement of the cover on the gallery page.
-  grid: { col: number; row: number; colSpan: number; rowSpan: number; z: number };
+  // Free-canvas placement of the cover (design px; see src/lib/grid.ts).
+  x: number;
+  y: number;
+  w: number;
+  z: number;
+  fit: Fit;
+  // false = decorative tile (shown but opens no lightbox).
+  clickable: boolean;
 }
 
 export interface Snapshot {
@@ -65,7 +72,6 @@ export async function buildSnapshot(db: Db): Promise<Snapshot> {
       slug: p.slug,
       title: p.title,
       year: p.year,
-      categories: p.categories as Project['categories'],
       client: p.client ?? undefined,
       role: p.role ?? undefined,
       summary: p.summary,
@@ -73,13 +79,12 @@ export async function buildSnapshot(db: Db): Promise<Snapshot> {
       cover,
       images,
       order: p.sortOrder,
-      grid: {
-        col: p.col,
-        row: p.row,
-        colSpan: p.colSpan,
-        rowSpan: p.rowSpan,
-        z: p.z,
-      },
+      x: p.x,
+      y: p.y,
+      w: p.w,
+      z: p.z,
+      fit: (p.fit === 'contain' ? 'contain' : 'cover') as Fit,
+      clickable: p.clickable,
     };
 
     if (p.gallery === 'art') galleries.art.push(project);

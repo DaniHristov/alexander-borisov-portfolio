@@ -16,8 +16,10 @@ export async function sendMagicLink(email: string, url: string): Promise<void> {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      // TODO(prod): swap onboarding@resend.dev for a verified domain sender.
-      from: 'Portfolio Admin <onboarding@resend.dev>',
+      // Verified sender. `onboarding@resend.dev` (Resend's test sender) only
+      // delivers to the Resend account owner's address — set RESEND_FROM to a
+      // sender on a domain you've verified in Resend to email anyone.
+      from: process.env.RESEND_FROM ?? 'Portfolio Admin <onboarding@resend.dev>',
       to: [email],
       subject: 'Your sign-in link',
       html: `<p>Click to sign in to the portfolio admin:</p><p><a href="${safeUrl}">${safeUrl}</a></p><p>This link expires in 15 minutes.</p>`,

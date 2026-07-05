@@ -6,7 +6,6 @@ export {
   getAllProjects,
   getProjectBySlug,
   getFeaturedProjects,
-  getProjectsByCategory,
   getArtProjects,
   getSiteContent,
 } from '../live';

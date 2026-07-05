@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-branding',
   title: 'Manuscript Press — Series Identity',
   year: 2023,
-  categories: ['branding', 'art-direction'],
   client: 'Manuscript Press',
   role: 'Art Direction, Identity, Series Design',
   summary:

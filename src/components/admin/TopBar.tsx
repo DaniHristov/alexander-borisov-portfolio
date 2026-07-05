@@ -5,8 +5,7 @@ import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 const TABS = [
-  { href: '/admin/work', label: 'Work' },
-  { href: '/admin/art', label: 'Art' },
+  { href: '/admin/work', label: 'Collage' },
   { href: '/admin/about', label: 'About' },
   { href: '/admin/connect', label: 'Connect' },
 ];

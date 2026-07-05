@@ -4,9 +4,8 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { destroySession } from '@/lib/auth/session';
 import { requireSession } from '@/lib/auth/require';
-import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateGrid as persistGrid, addTile, deleteTile, updateTile, reorderTiles } from '@/db/queries';
+import { publish, upsertSiteContent, createProject, updateProjectFields, deleteProject, updateLayout as persistLayout, addTile, deleteTile, updateTile, reorderTiles } from '@/db/queries';
 import { storeImage } from '@/lib/storage/upload';
-import { clampCol, clampSpan } from '@/lib/grid';
 import type { NewProjectRow } from '@/db/schema';
 
 export async function logout(): Promise<void> {
@@ -76,14 +75,13 @@ export async function createWorkProject(gallery: 'work' | 'art'): Promise<string
     gallery,
     title: '',
     year: new Date().getFullYear(),
-    categories: [],
     summary: '',
     status: 'draft',
-    col: 0,
-    row: 0,
-    colSpan: 4,
-    rowSpan: 1,
+    x: 60,
+    y: 60,
+    w: 520,
     z: 0,
+    fit: 'cover',
     sortOrder: 9999,
   };
   const row = await createProject(values);
@@ -94,7 +92,7 @@ export async function createWorkProject(gallery: 'work' | 'art'): Promise<string
 export async function saveProjectMeta(
   id: string,
   fields: {
-    title?: string; year?: number; slug?: string; categories?: string[];
+    title?: string; year?: number; slug?: string; fit?: 'cover' | 'contain'; clickable?: boolean;
     client?: string | null; role?: string | null; summary?: string; description?: string | null;
     coverBlobUrl?: string; coverW?: number; coverH?: number; gallery?: 'work' | 'art';
   },
@@ -112,16 +110,14 @@ export async function removeProject(id: string, gallery: 'work' | 'art'): Promis
   revalidatePath(`/admin/${gallery}`);
 }
 
-export async function saveGrid(
+export async function saveLayout(
   gallery: 'work' | 'art',
-  layout: { id: string; col: number; row: number; colSpan: number; rowSpan: number; z: number; sortOrder: number }[],
+  layout: { id: string; x: number; y: number; w: number; z: number; sortOrder: number }[],
 ): Promise<void> {
   await requireSession();
-  const safe = layout.map((t) => {
-    const colSpan = clampSpan(t.colSpan);
-    return { ...t, colSpan, col: clampCol(t.col, colSpan), rowSpan: Math.max(1, t.rowSpan) };
-  });
-  await persistGrid(safe);
+  // Width must stay positive; x/y are free (may be negative for edge-bleed).
+  const safe = layout.map((t) => ({ ...t, w: Math.max(1, t.w) }));
+  await persistLayout(safe);
   revalidatePath(`/admin/${gallery}`);
   revalidatePath('/admin', 'layout'); // refresh the dirty indicator after a layout save
 }

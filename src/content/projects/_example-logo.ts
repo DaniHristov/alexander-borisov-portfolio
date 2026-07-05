@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-logo',
   title: 'Helios Coffee Identity',
   year: 2023,
-  categories: ['logo', 'branding'],
   client: 'Helios Coffee Roasters',
   role: 'Identity, Logotype, Brand System',
   summary:

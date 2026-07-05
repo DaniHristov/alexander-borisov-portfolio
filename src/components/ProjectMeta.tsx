@@ -13,10 +13,6 @@ export function ProjectMeta({ project }: Props) {
       <dl className="mt-6 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm">
         <dt className="text-xs uppercase tracking-wide text-muted">Year</dt>
         <dd className="tabular-nums">{project.year}</dd>
-        <dt className="text-xs uppercase tracking-wide text-muted">
-          Category
-        </dt>
-        <dd>{project.categories.join(', ')}</dd>
         {project.client ? (
           <>
             <dt className="text-xs uppercase tracking-wide text-muted">

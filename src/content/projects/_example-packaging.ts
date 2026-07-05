@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-packaging',
   title: 'Vela & Linden — Solstice 2023',
   year: 2022,
-  categories: ['packaging', 'logo'],
   client: 'Vela & Linden Wines',
   role: 'Identity, Label Design',
   summary:

@@ -27,7 +27,7 @@ Content is edited through the admin at `/admin` — no code changes or redeploys
 
 1. Go to `/admin` and enter an authorized email (set in `ADMIN_EMAILS`). A one-time sign-in link is emailed (via Resend). In **local dev with no `RESEND_API_KEY`, the link is printed to the dev-server console** — open it to sign in.
 2. Edit each surface:
-   - **Work / Art** — drag tiles to arrange, set width/height (in grid cells) in the inspector, upload a cover, edit title/year/slug/categories/summary. Click **Save layout** / **Save details**.
+   - **Work / Art** — free-canvas collage: drag tiles to arrange (they can overlap and bleed off the frame), drag a tile's corner to resize, and use the inspector to upload a cover, pick a fit (cover / transparent PNG), set width and layer order (z, bring-to-front / send-to-back), and edit title/year/slug/summary. Click **Save layout** / **Save details**.
    - **About / Connect** — fill the forms (bio, clients, press; email, socials, "Currently" rows). Click **Save draft**.
 3. Edits are private drafts. Click **Publish** (top bar) to make them live. The "Unpublished changes" badge shows when drafts differ from what's published.
 

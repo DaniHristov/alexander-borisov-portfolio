@@ -1,22 +1,3 @@
-export type Category =
-  | 'branding'
-  | 'editorial'
-  | 'logo'
-  | 'poster'
-  | 'packaging'
-  | 'art-direction'
-  | 'other';
-
-export const ALL_CATEGORIES: Category[] = [
-  'branding',
-  'editorial',
-  'logo',
-  'poster',
-  'packaging',
-  'art-direction',
-  'other',
-];
-
 export interface ProjectImage {
   src: string;
   alt: string;
@@ -29,7 +10,6 @@ export interface Project {
   slug: string;
   title: string;
   year: number;
-  categories: Category[];
   client?: string;
   role?: string;
   summary: string;

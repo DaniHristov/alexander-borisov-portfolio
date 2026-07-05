@@ -14,25 +14,33 @@ import { eq } from 'drizzle-orm';
 import { getDb, isDbConfigured } from '@/db/client';
 import { publishedSnapshot } from '@/db/schema';
 import type { Snapshot, GalleryProject } from '@/db/snapshot';
-import type { Category, Project, SiteContent } from './types';
+import type { Project, SiteContent } from './types';
+import { tileHeightPx } from '@/lib/grid';
 import { getAllSeedProjects } from './projects/seed';
 import { site as seedSite } from './site';
 
-const GRID_COLS = 3;
+// Seed collage layout: a 3-column masonry cascade in design-px space
+// (DESIGN_W = 1440). Real layouts are authored in the admin; this just gives
+// the seed fallback a sensible free-canvas arrangement.
+const SEED_COLS = [40, 510, 980];
+const SEED_W = 420;
+const SEED_GAP = 40;
 
-// Fallback payload when the DB has nothing to serve. /art renders from its own
-// seed module (CSS placeholders) until real images exist, so art is empty here.
+// Fallback payload when the DB has nothing to serve. Art is empty here until
+// real pieces are uploaded via the admin.
 function seedSnapshot(): Snapshot {
-  const work: GalleryProject[] = getAllSeedProjects().map((p, i) => ({
-    ...p,
-    grid: {
-      col: i % GRID_COLS,
-      row: Math.floor(i / GRID_COLS),
-      colSpan: 1,
-      rowSpan: 1,
-      z: 0,
-    },
-  }));
+  const colBottom = [0, 0, 0];
+  const work: GalleryProject[] = getAllSeedProjects().map((p, i) => {
+    // Drop each tile into the currently shortest column (masonry).
+    let c = 0;
+    for (let k = 1; k < colBottom.length; k++) {
+      if (colBottom[k] < colBottom[c]) c = k;
+    }
+    const x = SEED_COLS[c];
+    const y = colBottom[c];
+    colBottom[c] = y + tileHeightPx(SEED_W, p.cover.width, p.cover.height) + SEED_GAP;
+    return { ...p, x, y, w: SEED_W, z: i, fit: 'cover' as const, clickable: true };
+  });
   return { work, art: [], site: seedSite };
 }
 
@@ -81,10 +89,6 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
 
 export async function getFeaturedProjects(): Promise<Project[]> {
   return (await getAllProjects()).filter((p) => p.featured === true);
-}
-
-export async function getProjectsByCategory(category: Category): Promise<Project[]> {
-  return (await getAllProjects()).filter((p) => p.categories.includes(category));
 }
 
 export async function getSiteContent(): Promise<SiteContent> {

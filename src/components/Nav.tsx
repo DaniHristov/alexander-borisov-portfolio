@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { site } from '@/content/site';
 
 const links = [
-  { href: '/work', label: 'Work' },
-  { href: '/art', label: 'Art' },
-  { href: '/connect', label: 'Connect' },
+  { href: '#work', label: 'Work' },
+  { href: '#about', label: 'About' },
+  { href: '#connect', label: 'Connect' },
 ];
 
 /**

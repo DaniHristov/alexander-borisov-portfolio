@@ -13,6 +13,8 @@ import {
   uuid,
   text,
   integer,
+  real,
+  boolean,
   timestamp,
   jsonb,
   smallint,
@@ -25,8 +27,6 @@ export const projects = pgTable('projects', {
   gallery: text('gallery').notNull(),
   title: text('title').notNull(),
   year: integer('year').notNull(),
-  // category keys (see src/content/types.ts Category)
-  categories: text('categories').array().notNull().default([]),
   client: text('client'),
   role: text('role'),
   summary: text('summary').notNull().default(''),
@@ -34,13 +34,19 @@ export const projects = pgTable('projects', {
   coverBlobUrl: text('cover_blob_url'),
   coverW: integer('cover_w'),
   coverH: integer('cover_h'),
-  // Snap-grid placement of this project's COVER on the gallery page,
-  // measured in grid CELLS (not pixels). This is what the editor arranges.
-  col: smallint('col').notNull().default(0),
-  row: smallint('row').notNull().default(0),
-  colSpan: smallint('col_span').notNull().default(1),
-  rowSpan: smallint('row_span').notNull().default(1),
+  // Free-canvas placement of this project's COVER, in "design px" on a virtual
+  // canvas of width DESIGN_W (see src/lib/grid.ts). x/y may be negative or
+  // exceed DESIGN_W for edge-bleed; the tile's height derives from the cover
+  // aspect, so only width (w) is stored. z orders overlapping tiles.
+  x: real('x').notNull().default(60),
+  y: real('y').notNull().default(60),
+  w: real('w').notNull().default(520),
   z: integer('z').notNull().default(0),
+  // 'cover' — framed photo · 'contain' — transparent PNG floating without a box
+  fit: text('fit').notNull().default('cover'),
+  // When false the tile is decorative (e.g. a floating logo): shown on the
+  // collage but not clickable — it opens no lightbox.
+  clickable: boolean('clickable').notNull().default(true),
   // 'draft' | 'published' — working-table editing state
   status: text('status').notNull().default('draft'),
   sortOrder: integer('sort_order').notNull().default(0),

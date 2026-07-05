@@ -24,11 +24,15 @@ import { site } from '../src/content/site.ts';
 import { getDb } from '../src/db/client.ts';
 import { projects, tiles, siteContent, publishedSnapshot } from '../src/db/schema.ts';
 import { buildSnapshot } from '../src/db/snapshot.ts';
+import { tileHeightPx } from '../src/lib/grid.ts';
 
 async function main() {
-  // 12-column grid: each cover is 4 columns wide (3 per row).
-  const COL_SPAN = 4;
-  const PER_ROW = 3;
+  // Free-canvas seed layout: a simple 3-column masonry cascade in design px
+  // (DESIGN_W = 1440) — same shape as the no-DB fallback in src/content/live.ts.
+  // Real collage arrangements are made in the admin afterwards.
+  const SEED_COLS = [40, 510, 980];
+  const SEED_W = 420;
+  const SEED_GAP = 40;
   const db = getDb();
 
   console.log('Clearing working tables…');
@@ -39,8 +43,17 @@ async function main() {
   // --- Work projects (from the seed modules, not the DB accessors) ---
   const work = getAllSeedProjects();
   console.log(`Seeding ${work.length} work projects…`);
+  const workBottoms = [0, 0, 0]; // masonry: drop each tile into the shortest column
   let i = 0;
   for (const p of work) {
+    let c = 0;
+    for (let k = 1; k < workBottoms.length; k++) {
+      if (workBottoms[k] < workBottoms[c]) c = k;
+    }
+    const x = SEED_COLS[c];
+    const y = workBottoms[c];
+    workBottoms[c] = y + tileHeightPx(SEED_W, p.cover.width, p.cover.height) + SEED_GAP;
+
     const [inserted] = await db
       .insert(projects)
       .values({
@@ -48,7 +61,6 @@ async function main() {
         gallery: 'work',
         title: p.title,
         year: p.year,
-        categories: p.categories,
         client: p.client ?? null,
         role: p.role ?? null,
         summary: p.summary,
@@ -56,11 +68,11 @@ async function main() {
         coverBlobUrl: p.cover.src,
         coverW: p.cover.width,
         coverH: p.cover.height,
-        col: (i % PER_ROW) * COL_SPAN,
-        row: Math.floor(i / PER_ROW),
-        colSpan: COL_SPAN,
-        rowSpan: 1,
-        z: 0,
+        x,
+        y,
+        w: SEED_W,
+        z: i,
+        fit: 'cover',
         status: 'published',
         sortOrder: i,
       })
@@ -88,22 +100,31 @@ async function main() {
   // them with real uploads. blobUrl on a tile is required, so art pieces get
   // no detail tiles until real images exist.
   console.log(`Seeding ${artPieces.length} art pieces…`);
+  const artBottoms = [0, 0, 0];
   for (let a = 0; a < artPieces.length; a++) {
     const piece = artPieces[a];
+    let c = 0;
+    for (let k = 1; k < artBottoms.length; k++) {
+      if (artBottoms[k] < artBottoms[c]) c = k;
+    }
+    const x = SEED_COLS[c];
+    const y = artBottoms[c];
+    // No cover yet → tileHeightPx falls back to a 4:5 portrait.
+    artBottoms[c] = y + tileHeightPx(SEED_W) + SEED_GAP;
+
     await db.insert(projects).values({
       slug: `art-${slugify(piece.title)}`,
       gallery: 'art',
       title: piece.title,
       year: piece.year,
-      categories: [],
       role: piece.medium,
       summary: `${piece.medium} — ${piece.dimensions}`,
       coverBlobUrl: null,
-      col: (a % PER_ROW) * COL_SPAN,
-      row: Math.floor(a / PER_ROW),
-      colSpan: COL_SPAN,
-      rowSpan: 1,
-      z: 0,
+      x,
+      y,
+      w: SEED_W,
+      z: a,
+      fit: 'cover',
       status: 'published',
       sortOrder: a,
     });

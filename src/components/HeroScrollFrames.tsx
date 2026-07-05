@@ -24,13 +24,14 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 const FRAME_COUNT = 289
 const SCROLL_DISTANCE = 1800 // section height = scroll length for the scrub
-// Sequence: animation plays → fades out → tagline + nav appear on black
-const ANIMATION_END_PROGRESS = 0.80 // frames reach last frame at 80% scroll
-const CANVAS_FADE_START = 0.80 // canvas begins fading to black
-const CANVAS_FADE_END = 0.90 // canvas fully invisible
-const TAGLINE_FADE_START = 0.90 // tagline begins appearing on black
-const TAGLINE_FADE_END = 1.0 // tagline fully visible by end of pin
-const NAV_REVEAL_PROGRESS = 0.88 // nav fades in around the handover
+// Sequence: animation plays → canvas fades to black → stage hands off to the
+// collage in flow below (no tagline menu finale anymore).
+const ANIMATION_END_PROGRESS = 0.90 // frames reach last frame at 90% scroll
+const CANVAS_FADE_START = 0.90 // canvas begins fading to black
+const CANVAS_FADE_END = 1.0 // canvas fully invisible right at the handoff
+const TAGLINE_FADE_START = 0.95 // (sr-only content — kept for the h1)
+const TAGLINE_FADE_END = 1.0
+const NAV_REVEAL_PROGRESS = 0.92 // nav fades in around the handover
 const MOBILE_BREAKPOINT = 800
 const LOAD_CONCURRENCY = 8
 
@@ -353,9 +354,14 @@ export function HeroScrollFrames({ tagline }: { tagline: ReactNode }) {
       }}
       aria-label="Designer reel"
     >
+      {/* z-10 keeps the opaque stage above the in-flow content below the
+          hero (the collage) until it fades out. For reduced motion the stage
+          is absolute, not fixed, so it scrolls away with the section instead
+          of covering the page forever (pastHero never fires without the
+          scroll-driven trigger). */}
       <div
         ref={stageRef}
-        className={`fixed inset-0 z-0 flex h-screen w-full items-center justify-center overflow-hidden bg-black transition-opacity duration-200 ${
+        className={`${reducedMotion ? 'absolute' : 'fixed'} inset-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden bg-black transition-opacity duration-200 ${
           pastHero ? 'pointer-events-none opacity-0' : 'opacity-100'
         }`}
       >

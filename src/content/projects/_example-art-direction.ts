@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-art-direction',
   title: 'Atlas Records — Annual Report 2024',
   year: 2022,
-  categories: ['art-direction', 'editorial'],
   client: 'Atlas Records',
   role: 'Art Direction, Editorial Design',
   summary:

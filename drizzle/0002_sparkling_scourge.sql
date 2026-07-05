@@ -1,0 +1,1 @@
+ALTER TABLE "projects" ADD COLUMN "clickable" boolean DEFAULT true NOT NULL;

@@ -3,7 +3,6 @@ import {
   getAllProjects,
   getProjectBySlug,
   getFeaturedProjects,
-  getProjectsByCategory,
 } from '@/content/projects';
 
 // These accessors are async (DB snapshot with seed fallback). With no
@@ -45,19 +44,5 @@ describe('getFeaturedProjects', () => {
     for (const p of featured) {
       expect(p.featured).toBe(true);
     }
-  });
-});
-
-describe('getProjectsByCategory', () => {
-  it('returns only projects whose categories include the given tag', async () => {
-    const filtered = await getProjectsByCategory('logo');
-    for (const p of filtered) {
-      expect(p.categories).toContain('logo');
-    }
-  });
-
-  it('is case-sensitive and returns [] for unknown categories', async () => {
-    // @ts-expect-error testing runtime behavior with invalid input
-    expect(await getProjectsByCategory('NOPE')).toEqual([]);
   });
 });

@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-editorial',
   title: 'Ferrous Quarterly, Nº 12',
   year: 2024,
-  categories: ['editorial'],
   client: 'Ferrous Quarterly',
   role: 'Art Direction, Design',
   summary:

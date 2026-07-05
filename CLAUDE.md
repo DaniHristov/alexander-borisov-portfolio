@@ -18,12 +18,16 @@ Next.js 15 + React 19 + TypeScript + Tailwind v4. Backend: Neon Postgres via Dri
 
 ## Canonical public routes
 
-`/`, `/work`, `/work/[slug]`, `/art`, `/about`, `/connect`. (The old `/works` and `/contact` duplicates were removed.)
+`/` only — the public site is a **single page**. Work (one unified collage — work + art merged), About, and Connect are sections (`#work`, `#about`, `#connect`) on that page. Clicking a project opens its gallery in an in-page lightbox (no `/work/[slug]` route). There are no categories/tags. The old multi-page routes were removed.
+
+## Collage model (free canvas)
+
+Projects are placed on a **free canvas** in "design px" over a fixed width `DESIGN_W = 1440` (see `src/lib/grid.ts`): each project stores `x, y, w, z, fit`. Tiles may overlap, layer (`z`), and bleed past the frame (`x`/`y` can be negative). Height derives from the cover's aspect ratio, so only width is stored. `fit` is `'cover'` (framed photo) or `'contain'` (transparent PNG floating without a box). The public canvas scales uniformly via percentages — no layout JS. Every project shares one coordinate space (work and art are unified — no gallery split).
 
 ## Admin CMS (`/admin`)
 
 - **Auth:** magic-link. Enter an email on `/admin/login`; only addresses in `ADMIN_EMAILS` get a one-time signed link. In local dev (no `RESEND_API_KEY`) the link is printed to the dev-server console. Session is a signed httpOnly cookie. Every `/admin` page and write action verifies the session server-side.
-- **Editors:** Work + Art are snap-grid editors (drag to move, W/H span inputs to resize, inspector for cover upload + metadata). About + Connect are simple forms.
+- **Editors:** a single **Collage** free-canvas editor (`/admin/work`) — work and art are unified into one coordinate space (no separate Art tab; the `gallery` column stays `'work'` for every row). Drag to move with overlap, drag a corner to resize, inspector for cover upload, `fit` cover/transparent toggle, width, layer/z + bring-to-front/send-to-back, and metadata. About + Connect are simple forms.
 - **Draft → Publish:** edits write to working tables and are private. **Publish** serializes a snapshot the public site reads (cached, `revalidateTag('published')`). The top bar shows an "Unpublished changes" badge whenever the working content differs from the published snapshot.
 - **Uploads:** Vercel Blob when `BLOB_READ_WRITE_TOKEN` is set; otherwise a local dev fallback writes to `public/uploads/` (gitignored).
 

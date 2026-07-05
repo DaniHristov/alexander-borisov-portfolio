@@ -78,16 +78,16 @@ export async function updateProjectFields(
   await db.update(projects).set({ ...fields, ...touch() }).where(eq(projects.id, id));
 }
 
-export async function updateGrid(
-  layout: { id: string; col: number; row: number; colSpan: number; rowSpan: number; z: number; sortOrder: number }[],
+export async function updateLayout(
+  layout: { id: string; x: number; y: number; w: number; z: number; sortOrder: number }[],
   db: Db = getDb(),
 ) {
   if (layout.length === 0) return;
-  // One atomic batch so a mid-save failure can't leave the grid half-updated.
+  // One atomic batch so a mid-save failure can't leave the canvas half-updated.
   const stmts = layout.map((t) =>
     db
       .update(projects)
-      .set({ col: t.col, row: t.row, colSpan: t.colSpan, rowSpan: t.rowSpan, z: t.z, sortOrder: t.sortOrder, ...touch() })
+      .set({ x: t.x, y: t.y, w: t.w, z: t.z, sortOrder: t.sortOrder, ...touch() })
       .where(eq(projects.id, t.id)),
   );
   await db.batch(stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]]);

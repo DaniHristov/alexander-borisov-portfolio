@@ -5,7 +5,6 @@ const project: Project = {
   slug: '_example-poster',
   title: 'Nine Volt — Autumn Tour',
   year: 2024,
-  categories: ['poster', 'art-direction'],
   client: 'Nine Volt (record label)',
   role: 'Art Direction, Poster Design',
   summary:

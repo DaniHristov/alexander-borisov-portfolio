@@ -16,7 +16,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
     slug: data.project.slug,
     title: data.project.title,
     year: data.project.year,
-    categories: data.project.categories,
+    fit: data.project.fit === 'contain' ? 'contain' : 'cover',
     client: data.project.client ?? '',
     role: data.project.role ?? '',
     summary: data.project.summary,
