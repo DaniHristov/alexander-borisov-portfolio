@@ -5,35 +5,32 @@ interface Props {
   images: ProjectImage[];
 }
 
-const FULL_BLEED_MIN_WIDTH = 1600;
-
 export function ProjectGallery({ images }: Props) {
   return (
-    <div className="flex flex-col gap-8 md:gap-12">
-      {images.map((img, i) => {
-        const fullBleed = img.width >= FULL_BLEED_MIN_WIDTH;
-        return (
-          <figure
-            key={`${img.src}-${i}`}
-            className={fullBleed ? 'px-0' : 'mx-auto w-full max-w-[960px] px-6 md:px-10'}
-          >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              width={img.width}
-              height={img.height}
-              sizes={fullBleed ? '100vw' : '(min-width: 1024px) 960px, 100vw'}
-              className={`h-auto w-full ${i === 0 ? 'first-image-fade' : ''}`}
-              priority={i === 0}
-            />
-            {img.caption ? (
-              <figcaption className="mx-auto mt-2 max-w-[960px] text-xs text-muted">
-                {img.caption}
-              </figcaption>
-            ) : null}
-          </figure>
-        );
-      })}
+    <div className="flex flex-col items-center gap-8 px-6 md:gap-12 md:px-10">
+      {images.map((img, i) => (
+        <figure
+          key={`${img.src}-${i}`}
+          className="w-full"
+          // Never upscale past the image's real size — a small cover/logo stays
+          // its original dimensions instead of being stretched to fill. Larger
+          // images just scale down to fit the column.
+          style={{ maxWidth: img.width }}
+        >
+          <Image
+            src={img.src}
+            alt={img.alt}
+            width={img.width}
+            height={img.height}
+            sizes={`(max-width: ${img.width}px) 100vw, ${img.width}px`}
+            className={`h-auto w-full ${i === 0 ? 'first-image-fade' : ''}`}
+            priority={i === 0}
+          />
+          {img.caption ? (
+            <figcaption className="mt-2 text-xs text-muted">{img.caption}</figcaption>
+          ) : null}
+        </figure>
+      ))}
     </div>
   );
 }

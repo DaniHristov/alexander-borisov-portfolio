@@ -64,7 +64,7 @@ export default async function Home() {
 
           <Reveal className="mt-10 space-y-6 text-base leading-relaxed" delay={120}>
             <p>
-              For new projects, collaborations— I read every message and reply to
+              For new projects, collaborations, I read every message and reply to
               most within a few days.
             </p>
             <p>
