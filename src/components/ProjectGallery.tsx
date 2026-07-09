@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { ProjectImage } from '@/content/types';
+import { isAnimated } from '@/lib/grid';
 
 interface Props {
   images: ProjectImage[];
@@ -23,6 +24,7 @@ export function ProjectGallery({ images }: Props) {
             width={img.width}
             height={img.height}
             sizes={`(max-width: ${img.width}px) 100vw, ${img.width}px`}
+            unoptimized={isAnimated(img.src)}
             className={`h-auto w-full ${i === 0 ? 'first-image-fade' : ''}`}
             priority={i === 0}
           />

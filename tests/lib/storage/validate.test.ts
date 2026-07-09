@@ -5,6 +5,9 @@ describe('validateUpload', () => {
   it('accepts a jpeg under the cap', () => {
     expect(validateUpload('image/jpeg', 1000)).toBeNull();
   });
+  it('accepts an animated gif', () => {
+    expect(validateUpload('image/gif', 1000)).toBeNull();
+  });
   it('rejects a non-image MIME', () => {
     expect(validateUpload('application/pdf', 1000)).toMatch(/image/i);
   });

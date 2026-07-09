@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import type { GalleryProject } from '@/db/snapshot';
-import { canvasHeight, tileStyle, DESIGN_W } from '@/lib/grid';
+import { canvasHeight, tileStyle, DESIGN_W, isAnimated } from '@/lib/grid';
 import { ProjectLightbox } from './ProjectLightbox';
 
 interface Props {
@@ -26,6 +26,7 @@ function TileImage({ p, priority }: { p: GalleryProject; priority: boolean }) {
       height={p.cover.height}
       sizes="(min-width: 1024px) 40vw, 60vw"
       priority={priority}
+      unoptimized={isAnimated(p.cover.src)}
       className={`h-auto w-full ${
         p.fit === 'contain' ? 'object-contain' : 'bg-rule object-cover'
       }`}

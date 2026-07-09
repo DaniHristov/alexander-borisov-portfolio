@@ -88,7 +88,7 @@ export async function listUploadedImages(): Promise<{ url: string; pathname: str
   const dir = path.join(process.cwd(), 'public', 'uploads');
   const files = await readdir(dir).catch(() => []);
   return files
-    .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
+    .filter((f) => /\.(jpe?g|png|webp|avif|gif)$/i.test(f))
     .reverse()
     .map((f) => ({ url: `/uploads/${f}`, pathname: f }));
 }

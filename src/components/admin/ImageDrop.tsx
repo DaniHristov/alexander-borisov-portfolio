@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+const ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
 const MAX_BYTES = 8 * 1024 * 1024; // 8 MB (original)
 // Downscale the longest edge before upload. Keeps the request body well under
 // Vercel's ~4.5 MB serverless function limit and speeds up the public site.
@@ -14,6 +14,9 @@ const MAX_EDGE = 2400;
  * the original file if the browser can't decode it (e.g. some AVIF).
  */
 async function downscale(file: File): Promise<File> {
+  // GIFs must be uploaded untouched — drawing them to a canvas keeps only the
+  // first frame and would drop the animation.
+  if (file.type === 'image/gif') return file;
   const bitmap = await createImageBitmap(file).catch(() => null);
   if (!bitmap) return file;
   const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));

@@ -15,6 +15,10 @@ export const CANVAS_GAP = 120;
 
 export type Fit = 'cover' | 'contain';
 
+/** Animated formats (GIF) must skip next/image optimization, which would
+ *  otherwise flatten them to a single frame. */
+export const isAnimated = (src: string) => /\.gif(\?|$)/i.test(src);
+
 /** Default aspect (h/w) when a tile has no cover dimensions yet. */
 const DEFAULT_AR = 5 / 4;
 
